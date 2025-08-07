@@ -45,10 +45,11 @@ EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost/ || exit 1
 
-# Labels for container registry
+# Labels for container registry and Coolify
 LABEL org.opencontainers.image.title="Aurelia Galleria Mockup Generator"
 LABEL org.opencontainers.image.description="AI-powered mockup generator using FLUX Pro"
 LABEL org.opencontainers.image.vendor="Aurelia Galleria"
+LABEL coolify.port=80
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
