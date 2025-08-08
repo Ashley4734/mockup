@@ -280,10 +280,27 @@ const MockupGenerator = () => {
           ctx.shadowBlur = 4;
           ctx.shadowOffsetX = 2;
           ctx.shadowOffsetY = 2;
+          // draw rounded preview rectangle manually for broader browser support
+          const x = canvas.width - 95;
+          const y = 10;
+          const width = 85;
+          const height = 65;
+          const radius = 5;
+
           ctx.beginPath();
-          ctx.roundRect(canvas.width - 95, 10, 85, 65, 5);
+          ctx.moveTo(x + radius, y);
+          ctx.lineTo(x + width - radius, y);
+          ctx.arcTo(x + width, y, x + width, y + radius, radius);
+          ctx.lineTo(x + width, y + height - radius);
+          ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+          ctx.lineTo(x + radius, y + height);
+          ctx.arcTo(x, y + height, x, y + height - radius, radius);
+          ctx.lineTo(x, y + radius);
+          ctx.arcTo(x, y, x + radius, y, radius);
+          ctx.closePath();
+
           ctx.clip();
-          ctx.drawImage(img, canvas.width - 95, 10, 85, 65);
+          ctx.drawImage(img, x, y, width, height);
           ctx.restore();
         };
         img.src = uploadedImagePreview;
